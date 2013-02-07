@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% load static main_extras %}
 
+{% block head %}
+    <script>
+        App.booksData = {{ books|to_json|safe }};
+        App.contactsData = {{ contacts|to_json|safe }};
+    </script>
+{% endblock %}
+
 {% block body %}
 
     <div class="app-tab" id="tabHome">
@@ -9,10 +16,36 @@
 
     <div class="app-tab" id="tabBooks" style="display: none">
         <h1>Books</h1>
+
+        <div id="booksView">
+
+        <a href="#" class="btn btn-primary" id="addBookButton">Add book</a>
+
+        <hr>
+
+        <table class="table-bordered table-condensed table-hover">
+            <tbody>
+
+            </tbody>
+        </table>
+
+        </div>
     </div>
 
     <div class="app-tab" id="tabContacts" style="display: none">
         <h1>Contacts</h1>
+
+        <div id="contactsView">
+
+        <a href="#" class="btn btn-primary" id="addContactButton">Add contact</a>
+
+        <table>
+            <tbody>
+
+            </tbody>
+        </table>
+
+        </div>
     </div>
 
     <div class="app-tab" id="tabAbout" style="display: none">
@@ -20,5 +53,11 @@
 
         <p>Info about application here</p>
     </div>
+
+    {% js_template js/book.html book %}
+    {% js_template js/contact.html contact %}
+
+    {% js_template js/book_form.html bookForm %}
+    {% js_template js/contact_form.html contactForm %}
 
 {% endblock %}

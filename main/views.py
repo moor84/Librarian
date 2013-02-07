@@ -4,16 +4,14 @@ from annoying.decorators import render_to, ajax_request
 
 from main.models import Book, Contact
 
-#def _get_site():
-#    return Site.objects.get_current()
-
 @render_to('home.html')
 def home(request):
     return {
         'site': Site.objects.get_current(),
-        'books': Book.objects.order_by('title').all(),
-        'contacts': Contact.objects.order_by('title').all(),
-        'nav_point': 'home',
+        'books': [{ 'title': b.title, 'author': b.author, 'description': b.description, 'resource_uri': '/api/v1/books/%s/' % b.id }
+                  for b in Book.objects.order_by('title').all()],
+        'contacts': [{ 'first_name': c.first_name, 'last_name': c.last_name, 'resource_uri': '/api/v1/contacts/%s/' % c.id }
+                  for c in Contact.objects.order_by('first_name', 'last_name').all()],
     }
 
 @ajax_request
@@ -22,15 +20,3 @@ def stats(request):
         'top_books': [],
         'top_contacts': [],
     }
-
-#@render_to('books.html')
-#def books(request):
-#    return { 'site': _get_site(), 'nav_point': 'books', }
-#
-#@render_to('contacts.html')
-#def contacts(request):
-#    return { 'site': _get_site(), 'nav_point': 'contacts', }
-#
-#@render_to('about.html')
-#def about(request):
-#    return { 'site': _get_site(), 'nav_point': 'about', }

@@ -35,10 +35,18 @@
     <script src="/static/js/libs/backbone.validation.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/js/libs/bootstrap-datepicker.js"></script>
+    <script src="/static/js/libs/backbone.bootstrap-modal.js"></script>
 
+    <script src="/static/js/base.js"></script>
+    <script src="/static/js/models.js"></script>
+    <script src="/static/js/views.js"></script>
     <script src="/static/js/app.js"></script>
 
     {% endcompress %}
+
+    <link href="/static/css/main.css" rel="stylesheet">
+
+    {% block head %}{% endblock %}
 </head>
 
 <body>
@@ -65,6 +73,8 @@
 </div>
 
 <div class="container">
+
+    <div id="alerts"></div>
 
     {% block body %}
     {% endblock %}

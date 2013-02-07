@@ -47,27 +47,6 @@ var Alert = new function () {
 };
 
 /**
- * Error handler.
- * TODO: implement error handling.
- *
- * @constructor
- */
-var ErrorHandler = new function () {
-
-    /**
-     * [handleAjax description]
-     *
-     * @param  {[type]} e         [description]
-     * @param  {[type]} jqxhr     [description]
-     * @param  {[type]} settings  [description]
-     * @param  {[type]} exception [description]
-     */
-    this.handleAjax = function (e, jqxhr, settings, exception) {
-        Alert.sysError("Ajax error (" + settings.url + "): " + exception);
-    }
-};
-
-/**
  * Simple loader.
  *
  * @constructor
@@ -175,14 +154,13 @@ var Tpl = new function () {
     /**
      * Render template.
      *
-     * @param  {String} templateName Name of template.
+     * @param  {String} template Template.
      * @param  {Object} context  Context.
      *
      * @return {String}          Rendering result.
      */
-    this.render = function (templateName, context) {
+    this.render = function (template, context) {
         if (!inited) init();
-        var template = this.getTemplate(templateName);
         if (context && context.toJSON) {
             context = context.toJSON();
         }
@@ -231,21 +209,24 @@ var BaseView = Backbone.View.extend({
  * @constructor
  */
 var FormView = BaseView.extend({
+    tagName:  "div",
     model: undefined,
     savedMessage: 'Item has been saved.',
-
-    events: {
-        "click .save:first": function (e) { e.preventDefault(); this.saveModel(e.target); return false; },
-        "click .cancel:first": function (e) { e.preventDefault(); this.cancel(e.target); return false; }
-    },
 
     formToJson: function () {
         return App.formToJson(this.$el.find('form'));
     },
 
-    saveModel: function (target, additionalFields) {
-        var button = $(target);
-        button.button('loading');
+    initialize: function () {
+        this.bind("ok", this.okClicked);
+    },
+
+    okClicked: function (modal) {
+        modal.preventClose();
+        this.saveModel(modal);
+    },
+
+    saveModel: function (modal, additionalFields) {
         var data = this.formToJson();
         if (additionalFields) {
             data = _.extend(data, additionalFields);
@@ -254,9 +235,9 @@ var FormView = BaseView.extend({
         this.model.save(data,
             {
                 success: function () {
-                    button.button('reset');
                     Alert.success(self.savedMessage);
                     self.save();
+                    modal.close();
                 },
                 error: function (model, error) {
                     if (error.responseText)
@@ -265,7 +246,6 @@ var FormView = BaseView.extend({
                         Alert.error(error.join('<br>'));
                     else
                         Alert.error(error);
-                    button.button('reset');
                 },
                 wait: true
             }
@@ -290,6 +270,28 @@ var FormView = BaseView.extend({
 });
 
 /**
+ * Item view.
+ *
+ * @class
+ */
+var ItemView = BaseView.extend({
+    tagName:  "tr",
+    model: undefined,
+
+    initialize: function() {
+        this.model.on('change', this.render, this);
+        this.model.on('destroy', this.remove, this);
+    },
+
+    render: function() {
+        this.beforeRender();
+        this.$el.html(Tpl.render(this.getTemplate(), { view: this, model: this.model.toJSON() }));
+        this.afterRender();
+        return this;
+    }
+});
+
+/**
  * List view.
  *
  * @class
@@ -304,7 +306,7 @@ var ListView = BaseView.extend({
 
     render: function() {
         this.beforeRender();
-        this.$el.html(Tpl.render(this.getTemplate(), { view: this, items: this.collection }));
+        this.$el.find('tbody').empty();
         this.collection.each(function (item) {
             var view = new this.itemView({ model: item });
             this.$el.find('tbody').append(view.render().el);
@@ -313,4 +315,3 @@ var ListView = BaseView.extend({
         return this;
     }
 });
-

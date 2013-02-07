@@ -1,0 +1,15 @@
+<form>
+
+
+    <fieldset>
+        <legend>{% if (model.id) { %}Editing{% } else { %}Adding New{% } %} Contact</legend>
+
+        <label>First Name</label>
+        <input type="text" name="first_name" value="{{ this.val(model.first_name) }}" placeholder="Type first name">
+
+        <label>Last Name</label>
+        <input type="text" name="last_name" value="{{ this.val(model.last_name) }}" placeholder="Type last name">
+
+    </fieldset>
+
+</form>

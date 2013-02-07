@@ -1,0 +1,18 @@
+<form>
+
+
+    <fieldset>
+        <legend>{% if (model.id) { %}Editing{% } else { %}Adding New{% } %} Book</legend>
+
+        <label>Title</label>
+        <input type="text" name="title" value="{{ this.val(model.title) }}" placeholder="Type title">
+
+        <label>Author</label>
+        <input type="text" name="author" value="{{ this.val(model.author) }}" placeholder="Type author's name">
+
+        <label>Description</label>
+        <textarea name="description">{{ this.val(model.description) }}</textarea>
+
+    </fieldset>
+
+</form>
