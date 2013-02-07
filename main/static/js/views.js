@@ -62,7 +62,6 @@ App.ContactFormView = FormView.extend({
 });
 
 App.ContactsListView = ListView.extend({
-    templateName: 'contactsView',
     itemView: App.ContactView,
 
     events: {
@@ -73,4 +72,67 @@ App.ContactsListView = ListView.extend({
         var view = new App.ContactFormView({ model: new App.Contact() });
         var modal = new Backbone.BootstrapModal({ content: view }).open();
     }
+});
+
+App.LentBookView = ItemView.extend({
+    templateName: 'lentbook',
+
+    events: {
+        "click a.remove": function (e) { e.preventDefault(); this.destroyItem(); }
+    },
+
+    destroyItem: function () {
+        var id = this.model.id;
+        var model = App.lentbooks.get(id);
+        model.destroy();
+
+        App.topbooks.fetch();
+        App.topcontacts.fetch();
+    }
+});
+
+App.LentBookFormView = FormView.extend({
+    templateName: 'lentbookForm',
+    model: App.LentBook,
+
+    save: function () {
+        App.lentbooks.fetch();
+        App.topbooks.fetch();
+        App.topcontacts.fetch();
+    },
+
+    afterRender: function () {
+        this.$el.find('input[name=return_by]').datepicker({ format: 'yyyy-mm-dd' }).on('changeDate', function(e) {
+            $(this).datepicker('hide');
+        });
+    }
+});
+
+App.LentBooksListView = ListView.extend({
+    itemView: App.LentBookView,
+
+    events: {
+        "click #addLentBookButton": function (e) { e.preventDefault(); this.add(); }
+    },
+
+    add: function () {
+        var view = new App.LentBookFormView({ model: new App.LentBook() });
+        var modal = new Backbone.BootstrapModal({ content: view }).open();
+    }
+});
+
+App.TopBookView = ItemView.extend({
+    templateName: 'topBook'
+});
+
+App.TopBooksListView = ListView.extend({
+    itemView: App.TopBookView
+});
+
+App.TopContactView = ItemView.extend({
+    templateName: 'topContact'
+});
+
+App.TopContactsListView = ListView.extend({
+    itemView: App.TopContactView
 });

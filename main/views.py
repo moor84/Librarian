@@ -13,10 +13,3 @@ def home(request):
         'contacts': [{ 'first_name': c.first_name, 'last_name': c.last_name, 'resource_uri': '/api/v1/contacts/%s/' % c.id }
                   for c in Contact.objects.order_by('first_name', 'last_name').all()],
     }
-
-@ajax_request
-def stats(request):
-    return {
-        'top_books': [],
-        'top_contacts': [],
-    }

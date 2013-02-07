@@ -1,0 +1,12 @@
+<td>
+    <h4>{{ model.book_title }}</h4>
+</td>
+<td>
+    <i>{{ model.contact_title }}</i>
+</td>
+<td>
+    {% if (model.return_by) { %}{{ moment(model.return_by).format('DD/MM/YYYY') }}{% } %}
+</td>
+<td style="text-align: right">
+    <a class="remove" href="#"><i class="icon-remove">&nbsp;</i></a>
+</td>

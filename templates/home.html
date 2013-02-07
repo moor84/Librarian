@@ -12,6 +12,50 @@
 
     <div class="app-tab" id="tabHome">
         <h1>Home</h1>
+
+        <div class="row">
+
+            <div class="span8">
+
+                <h2>Debts</h2>
+
+                <div id="lentbooksView">
+
+                    <a href="#" class="btn btn-primary" id="addLentBookButton">Loan a book</a>
+
+                    <hr>
+
+                    <table class="table-bordered table-condensed table-hover">
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="span4">
+
+                <div id="topcontactsView" class="well">
+                    <h3>Top borrowers</h3>
+
+                    <table class="table-condensed">
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+
+                <div id="topbooksView" class="well">
+                    <h3>Top books</h3>
+
+                    <table class="table-condensed">
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
     </div>
 
     <div class="app-tab" id="tabBooks" style="display: none">
@@ -24,9 +68,7 @@
         <hr>
 
         <table class="table-bordered table-condensed table-hover">
-            <tbody>
-
-            </tbody>
+            <tbody></tbody>
         </table>
 
         </div>
@@ -39,10 +81,10 @@
 
         <a href="#" class="btn btn-primary" id="addContactButton">Add contact</a>
 
-        <table>
-            <tbody>
+        <hr>
 
-            </tbody>
+        <table class="table-bordered table-condensed table-hover">
+            <tbody></tbody>
         </table>
 
         </div>
@@ -54,9 +96,13 @@
         <p>Info about application here</p>
     </div>
 
+    {% js_template js/lentbook.html lentbook %}
     {% js_template js/book.html book %}
     {% js_template js/contact.html contact %}
+    {% js_template js/top_book.html topBook %}
+    {% js_template js/top_contact.html topContact %}
 
+    {% js_template js/lentbook_form.html lentbookForm %}
     {% js_template js/book_form.html bookForm %}
     {% js_template js/contact_form.html contactForm %}
 

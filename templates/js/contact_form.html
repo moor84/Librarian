@@ -2,7 +2,7 @@
 
 
     <fieldset>
-        <legend>{% if (model.id) { %}Editing{% } else { %}Adding New{% } %} Contact</legend>
+        <legend>{% if (model.resource_uri) { %}Editing{% } else { %}Adding New{% } %} Contact</legend>
 
         <label>First Name</label>
         <input type="text" name="first_name" value="{{ this.val(model.first_name) }}" placeholder="Type first name">

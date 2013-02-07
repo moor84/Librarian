@@ -6,7 +6,7 @@ _LOCAL_PATH = os.path.dirname(__file__)
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-COMPRESS_ENABLED = False
+COMPRESS_ENABLED = True
 COMPRESS_DEBUG_TOGGLE = 'nocompress'
 COMPRESS_PARSER = 'compressor.parser.Html5LibParser'
 

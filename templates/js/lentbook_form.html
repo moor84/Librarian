@@ -1,0 +1,35 @@
+<form>
+
+    <fieldset>
+        <legend>Loan a Book</legend>
+
+        <label>Book</label>
+        <select name="book">
+            <option value="">---</option>
+            {% App.books.each(function(item) { %}
+            <option value="{{ item.get('resource_uri') }}"
+                    {% if (item.get('resource_uri') == model.book) { %} selected="selected"{% } %}
+                    >
+                {{ item.get('title') }}
+            </option>
+            {% }, this) %}
+        </select>
+
+        <label>Contact</label>
+        <select name="contact">
+            <option value="">---</option>
+            {% App.contacts.each(function(item) { %}
+            <option value="{{ item.get('resource_uri') }}"
+                    {% if (item.get('resource_uri') == model.contact) { %} selected="selected"{% } %}
+                    >
+                {{ item.get('first_name') }} {{ item.get('last_name') }}
+            </option>
+            {% }, this) %}
+        </select>
+
+        <label>Return by</label>
+        <input type="text" name="return_by" value="{{ moment(model.return_by).format('YYYY-MM-DD') }}">
+
+    </fieldset>
+
+</form>

@@ -28,3 +28,7 @@
     text-align: center;
     display: none;
 }
+
+div.datepicker {
+    z-index: 1000000
+}
